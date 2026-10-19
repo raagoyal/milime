@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#161326">
+  <meta name="description" content="A little countdown for Milime. Something lovely is just around the corner.">
+  <title>For Milime · Almost there</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: dark; --cream:#f7f1e9; --muted:#bdb4ad; --pink:#bd704e; --gold:#e7bd9b; }
+    * { box-sizing:border-box }
+    body { margin:0; min-height:100svh; overflow-x:hidden; color:var(--cream); font-family:'DM Sans',sans-serif; background:radial-gradient(ellipse at 50% 42%,#3b302b 0%,#241f1c 42%,#171514 82%); }
+    body::before,body::after { content:""; position:fixed; inset:0; pointer-events:none; }
+    body::before { opacity:.48; background-image:radial-gradient(1px 1px at 9% 18%,#fff 99%,transparent),radial-gradient(1px 1px at 84% 12%,#fff 99%,transparent),radial-gradient(1.5px 1.5px at 72% 39%,#ffe2cf 99%,transparent),radial-gradient(1px 1px at 23% 68%,#fff 99%,transparent),radial-gradient(1px 1px at 91% 74%,#fff 99%,transparent),radial-gradient(1.5px 1.5px at 39% 91%,#ffe2cf 99%,transparent),radial-gradient(1px 1px at 55% 8%,#fff 99%,transparent),radial-gradient(1px 1px at 6% 86%,#fff 99%,transparent); background-size:350px 290px; }
+    body::after { background:linear-gradient(180deg,transparent 72%,rgba(11,10,20,.38)); }
+    main { position:relative; z-index:1; min-height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:48px 22px 36px; text-align:center; }
+    .topline { position:absolute; top:32px; left:0; right:0; color:#c8b9ce; font-size:11px; letter-spacing:.24em; text-transform:uppercase; }
+    .sparkle { color:var(--gold); font-size:20px; margin-bottom:18px; animation:twinkle 2.8s ease-in-out infinite; }
+    .brand-logo { display:block; width:min(100%,680px); aspect-ratio:3 / 1; object-fit:cover; object-position:center; mix-blend-mode:screen; margin:-8px auto -5px; }
+    .subtitle { margin:20px 0 0; color:#ded2dc; font-family:'Playfair Display',serif; font-size:clamp(18px,3.4vw,24px); font-style:italic; }
+    .rule { display:flex; align-items:center; gap:13px; margin:40px 0 22px; color:var(--gold); font-size:13px; letter-spacing:.18em; text-transform:uppercase; }
+    .rule::before,.rule::after { content:""; width:40px; height:1px; background:linear-gradient(90deg,transparent,#c9a783); }
+    .rule::after { transform:rotate(180deg); }
+    .clock { display:flex; align-items:flex-start; gap:clamp(10px,3vw,28px); }
+    .unit { min-width:clamp(58px,13vw,102px); }
+    .number { display:block; font-variant-numeric:tabular-nums; font-size:clamp(46px,10vw,76px); font-weight:500; line-height:1.1; letter-spacing:-.07em; }
+    .label { display:block; margin-top:8px; color:var(--muted); font-size:10px; letter-spacing:.22em; text-transform:uppercase; }
+    .colon { color:#bd9eb6; font-family:'Playfair Display',serif; font-size:clamp(36px,8vw,60px); line-height:1.1; opacity:.7; }
+    .date { margin-top:34px; color:var(--gold); font-size:12px; letter-spacing:.16em; text-transform:uppercase; }
+    .footer { position:absolute; bottom:24px; color:#aa9caf; font-size:12px; letter-spacing:.04em; }
+    .heart { color:var(--pink); display:inline-block; animation:beat 1.5s ease-in-out infinite; }
+    @keyframes twinkle { 50% { opacity:.45; transform:scale(.85) } }
+    @keyframes beat { 50% { transform:scale(1.2) } }
+    @media(max-width:430px) { .topline{top:24px}.rule{margin-top:34px}.unit{min-width:54px}.label{font-size:9px}.footer{font-size:11px} }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; scroll-behavior:auto!important } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="topline">A little something for you</div>
+    <div class="sparkle" aria-hidden="true">✦</div>
+    <img class="brand-logo" src="milime-logo.png" alt="Milime — Wear your own thoughts">
+    <p class="subtitle">The loveliest things are worth the wait.</p>
+    <div class="rule">The countdown</div>
+    <div class="clock" role="timer" aria-label="Time remaining until November 3, 2026">
+      <div class="unit"><span class="number" id="days">15</span><span class="label">Days</span></div>
+      <span class="colon" aria-hidden="true">:</span>
+      <div class="unit"><span class="number" id="hours">00</span><span class="label">Hours</span></div>
+      <span class="colon" aria-hidden="true">:</span>
+      <div class="unit"><span class="number" id="minutes">00</span><span class="label">Minutes</span></div>
+      <span class="colon" aria-hidden="true">:</span>
+      <div class="unit"><span class="number" id="seconds">00</span><span class="label">Seconds</span></div>
+    </div>
+    <div class="date" id="date-label">November 3, 2026</div>
+    <div class="footer">Counting down with <span class="heart" aria-label="love">♥</span></div>
+  </main>
+  <script>
+    // November 3 is fifteen calendar days after October 19, 2026.
+    const target = new Date(2026, 10, 3, 23, 59, 59);
+    const ids = ['days', 'hours', 'minutes', 'seconds'];
+    const pad = value => String(value).padStart(2, '0');
+    function updateCountdown() {
+      const remaining = Math.max(0, target.getTime() - Date.now());
+      const totalSeconds = Math.floor(remaining / 1000);
+      const values = [Math.floor(totalSeconds / 86400), Math.floor(totalSeconds / 3600) % 24, Math.floor(totalSeconds / 60) % 60, totalSeconds % 60];
+      ids.forEach((id, index) => document.getElementById(id).textContent = pad(values[index]));
+      if (remaining === 0) {
+        document.querySelector('.subtitle').textContent = 'Today is the day. Make it wonderful.';
+        document.querySelector('.rule').textContent = 'It is time';
+      }
+    }
+    document.getElementById('date-label').textContent = new Intl.DateTimeFormat(undefined, { month:'long', day:'numeric', year:'numeric' }).format(target);
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
