@@ -29,6 +29,7 @@
     .number { display:block; font-variant-numeric:tabular-nums; font-size:clamp(46px,10vw,76px); font-weight:500; line-height:1.1; letter-spacing:-.07em; }
     .label { display:block; margin-top:8px; color:var(--muted); font-size:10px; letter-spacing:.22em; text-transform:uppercase; }
     .colon { color:#bd9eb6; font-family:'Playfair Display',serif; font-size:clamp(36px,8vw,60px); line-height:1.1; opacity:.7; }
+    .days-to-go { margin:20px 0 0; color:var(--cream); font-family:'Playfair Display',serif; font-size:clamp(19px,4vw,25px); font-style:italic; }
     .date { margin-top:34px; color:var(--gold); font-size:12px; letter-spacing:.16em; text-transform:uppercase; }
     .footer { position:absolute; bottom:24px; color:#aa9caf; font-size:12px; letter-spacing:.04em; }
     .heart { color:var(--pink); display:inline-block; animation:beat 1.5s ease-in-out infinite; }
@@ -45,7 +46,7 @@
     <img class="brand-logo" src="milime-logo.png" alt="Milime — Wear your own thoughts">
     <p class="subtitle">The loveliest things are worth the wait.</p>
     <div class="rule">The countdown</div>
-    <div class="clock" role="timer" aria-label="Time remaining until November 3, 2026">
+    <div class="clock" role="timer" aria-label="Time remaining until November 1, 2026">
       <div class="unit"><span class="number" id="days">15</span><span class="label">Days</span></div>
       <span class="colon" aria-hidden="true">:</span>
       <div class="unit"><span class="number" id="hours">00</span><span class="label">Hours</span></div>
@@ -54,12 +55,13 @@
       <span class="colon" aria-hidden="true">:</span>
       <div class="unit"><span class="number" id="seconds">00</span><span class="label">Seconds</span></div>
     </div>
-    <div class="date" id="date-label">November 3, 2026</div>
+    <p class="days-to-go" id="days-to-go">15 days to go</p>
+    <div class="date" id="date-label">November 1, 2026</div>
     <div class="footer">Counting down with <span class="heart" aria-label="love">♥</span></div>
   </main>
   <script>
-    // November 3 is fifteen calendar days after October 19, 2026.
-    const target = new Date(2026, 10, 3, 23, 59, 59);
+    // Count down through November 1, 2026, in the visitor's local timezone.
+    const target = new Date(2026, 10, 1, 23, 59, 59);
     const ids = ['days', 'hours', 'minutes', 'seconds'];
     const pad = value => String(value).padStart(2, '0');
     function updateCountdown() {
@@ -67,6 +69,7 @@
       const totalSeconds = Math.floor(remaining / 1000);
       const values = [Math.floor(totalSeconds / 86400), Math.floor(totalSeconds / 3600) % 24, Math.floor(totalSeconds / 60) % 60, totalSeconds % 60];
       ids.forEach((id, index) => document.getElementById(id).textContent = pad(values[index]));
+      document.getElementById('days-to-go').textContent = remaining === 0 ? 'It is today!' : values[0] + ' ' + (values[0] === 1 ? 'day' : 'days') + ' to go';
       if (remaining === 0) {
         document.querySelector('.subtitle').textContent = 'Today is the day. Make it wonderful.';
         document.querySelector('.rule').textContent = 'It is time';
